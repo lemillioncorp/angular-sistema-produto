@@ -1,0 +1,93 @@
+
+<div class="wrapper">
+  <div class="sidebar">
+          <h2><span class="images"><img src="assets/images/shop.png" width="55"></span>  <span class="desc"> {{ appName }}</span></h2>
+          <ul>
+                  <li> <a href="#List" (click)="changeModo('lista')"><i class="fas fa-home"></i> <span class="desc"><button class="bt" (click)="changeModo('lista')">CONSULTAR</button></span></a></li>
+                  <li> <a href="#New" (click)="changeModo('novo')"> <i class="fas fa-user"></i> <span class="desc"><button class="bt" (click)="changeModo('novo')">CADASTRAR</button></span></a></li>
+                  <li><a href="#Report" (click)="changeModo('lista')"> <i class="fas fa-address-card"></i> <span class="desc"><button class="bt" (click)="changeModo('lista')">ESTATISTÍCAS</button></span></a></li>
+                  
+          </ul>
+      <div class="social_media">
+          <a href="#"> <i class="fab fa-facebook-f"></i> </a>
+           <a href="#"><i class="fab fa-twitter"></i> </a>
+           <a href="#"><i class="fab fa-instagram"></i> </a>
+      </div>
+  </div>
+  <div class="main_content">
+      <div class="header">  {{ appName }} </div>
+      <div class="info">
+           
+            <div> 
+                  <table *ngIf="modo=='lista'">
+                      <thead class="cerebro-tabela">
+                          <tr>
+                            <th>ID</th>
+                            <th>Nome Produto</th>
+                            <th>Preço</th>
+                            <th>Fornecedor</th>
+                            <th>Atividades</th>
+                          </tr>
+                        </thead>
+                      <tbody>
+                        <tr *ngFor="let item of produtos" >
+                            <td > {{ item.id }} </td>
+                            <td > {{ item.nomeProduto }} </td>
+                            <td > {{ item.preco}} <small>Kz </small></td>
+                            <td > {{ item.fornecedor }} </td>
+                            <button (click)="marcarVendido(item)" *ngIf="!item.estadoVenda"> <i class="far fa-check-circle"></i>Vender</button>
+                            <button (click)="marcarNaoVendido(item)"  *ngIf="item.estadoVenda"><i class="fas fa-check-circle"></i>Revender</button>
+                            <button (click)="remover(item)"><i class="far fa-trash-alt"></i> Apagar</button>
+                          </tr>
+                        </tbody>
+                  </table>
+
+                  <p class="texto-ao-centro espaco-dentro" *ngIf="produtos.length == 0"><small>Nenhum Produto Existe na Base de Dados</small></p>
+
+                  </div>
+             
+            <div  *ngIf="modo=='novo'" id="modal">
+                <form [formGroup]="formulario" class="texto-ao-centro" >
+  
+                        <h1 class="texto-ao-centro">Novo Produto</h1>
+
+                        <label for="" class="texto-ao-left">Produto: </label>
+                        <input type="text" placeholder="Nome do Produto" formControlName="nome" minlength="3" maxlength="100">
+                        <p class="texto-ao-centro">
+                          <small class="danger" *ngIf="formulario.controls.nome.invalid && !formulario.controls.nome.pristine" >Este campo deve conter entre 3 a 100 Caractereres</small>
+                          </p>
+
+                        <label for="" class="texto-ao-left">Preço: </label>
+                        <input type="text" placeholder="Preço do Produto" formControlName="preco">
+
+                        <p class="texto-ao-centro">
+                          <small class="danger" *ngIf="formulario.controls.preco.invalid && !formulario.controls.preco.pristine" >Este campo deve conter entre 2 a 8 Caractereres</small>
+                          </p>
+
+                        <label for="" class="texto-ao-left">Fornecedor: </label>
+                        <input type="text" placeholder="Fornecedor do Produto" formControlName="fornecedor" minlength="4" maxlength="200">
+
+                        <p class="texto-ao-centro">
+                          <small class="danger" *ngIf="formulario.controls.fornecedor.invalid && !formulario.controls.fornecedor.pristine" >Este campo deve conter entre 4 a 200 Caractereres</small>
+                          </p>
+
+                        <p class="texto-ao-centro">
+                        <button class="button texto-ao-centro" [disabled]="formulario.invalid" (click)="adicionar()" ><i class="far fa-save"></i> &nbsp;Salvar</button>
+                        </p>
+                </form>
+
+             </div>
+
+             <p class="texto-ao-centro">
+              <button (click)="changeModo('novo')" *ngIf="modo=='lista'" class="button"> <i class="fas fa-plus-circle"></i> &nbsp;Cadastar Novo Produto</button>
+              </p>
+              <p class="texto-ao-centro">
+              <button (click)="changeModo('lista')" *ngIf="modo=='novo'" class="button"> <i class="fas fa-times"></i> &nbsp;&nbsp;CANCELAR</button>
+              </p>
+             
+      </div>
+  </div>
+</div>
+
+
+
